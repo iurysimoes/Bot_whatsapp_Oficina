@@ -37,6 +37,7 @@ client.on("qr", (qr) => {
   //console.log('QR RECEIVED', qr);
   qrcode.generate(qr, { small: true });
 });
+let reinicioMenu;
 let menuIniciado;
 let menu;
 let usuario;
@@ -46,10 +47,10 @@ let numeroOS;
 client.on("ready", () => {
   console.log("Conectado com sucesso!");
   //client.getChats().then(chats => {
-  ////iury inicio
-
+  ////iury inicioc
+  
   client.on("message", (message) => {
-    if (message.body === "Ola") {
+    if ((message.body === "Ola") && (reinicioMenu === true)) {
       client.sendMessage(
         message.from,
         "Olá sou assistente Virtual\n\n 1-Iniciar Apontamento \n 2-Finalizar Apontamento "
@@ -99,7 +100,10 @@ client.on("ready", () => {
               message.from,
               "Apotamento Iniciado com Sucesso!"
             );
+            numeroOS = null;
+            reinicioMenu = true;
           }
+          
         });
       } catch (error) {
         console.error(error);
@@ -108,64 +112,6 @@ client.on("ready", () => {
   });
 });
 ////iury fin
-
-// client.on("message", message => {
-//   if (message.body === "Ola") {
-
-//     client.sendMessage(
-//       message.from,
-//       "Olá sou assistente Virtual\n\n 1-Iniciar Apontamento \n 2-Finalizar Apontamento "
-//     );
-//   }
-//   else {
-//     console.log(message.body);
-//     if ((message.body === "1") && (message.body !== "Ola")) {
-//       client.sendMessage(message.from, "Informe seu usuario.");
-
-//     }
-
-//   };
-//   if ((message.body !== "1") && (message.body !== "Ola") && (message.body === "gerente")) {
-//     let USUARIO_OS = message.body;
-
-//     console.log(USUARIO_OS, "PASSANDO USUARIO");
-//     if (USUARIO_OS !== null) {
-//       try {
-//         getusuario(USUARIO_OS)
-//           .then((retorno) => {
-//             if (retorno === true) {
-//               client.sendMessage(message.from, "Informe numero da OS.");
-
-//             }
-//           });
-//       } catch (error) {
-//         console.error(error);
-//       }
-
-//     };
-
-//   };
-
-//      let NR_OS = message.body;
-//      console.log(NR_OS,"passou numero os");
-//      console.log(USUARIO_OS, "variavel usuario");
-//      if ((USUARIO_OS !== null)) {
-//       try {
-//         ordemServico(NR_OS)
-//         .then((retornoOs) => {
-//           if (retornoOs === true) {
-//              client.sendMessage(message.from, "Apotamento Iniciado com Sucesso!");
-
-//           }
-//         });
-//       } catch (error) {
-//         console.error(error);
-//       }
-//     };
-
-//   });
-
-// });
 
 // Salvando os valores da sessão no arquivo após a autenticação bem-sucedida
 //abaixo client.on era  authenticated  e mudei para numero 2020
