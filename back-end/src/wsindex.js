@@ -112,4 +112,5 @@ client.on("2020", (session) => {
 });
 
 client.initialize();
-//556285119035@c.us
+//556285119035@c.us 
+
