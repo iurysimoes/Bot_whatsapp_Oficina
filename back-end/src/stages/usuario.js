@@ -2,10 +2,10 @@ const oracledb = require("oracledb");
 const dbConfig = require("../ConfigDB");
 
 
- 
-const getusuario = async (USUARIO_OS) => {
-  let connection;
 
+const getusuario = async (usuario) => {
+  let connection;
+  if (usuario !== null){
   try {
     console.log("aqui conex1");
 
@@ -19,9 +19,9 @@ const getusuario = async (USUARIO_OS) => {
                AND F.FUNCAO_ID    = FUNC.FUNCAO_ID
                AND F.FUNCAO_DESCRICAO = 'LAVADOR'
                AND USRO.USRO_FUNCIONARIO = 'Sim'
-               AND USRO.USRO_USUARIO = :USUARIO_OS
+               AND USRO.USRO_USUARIO = :usuario
                  `,
-      [USUARIO_OS],
+      [usuario],
       //[],
       { outFormat: oracledb.OUT_FORMAT_OBJECT }
     );
@@ -44,6 +44,8 @@ const getusuario = async (USUARIO_OS) => {
   }
   return true;
 };
+};
+
 
 
 

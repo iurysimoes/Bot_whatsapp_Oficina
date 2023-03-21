@@ -1,32 +1,29 @@
 const oracledb = require("oracledb");
 const dbConfig = require("../ConfigDB");
 
-const ordemServico = async (NR_OS) => {
+const ordemServico = async (numeroOS) => {
   let connection;
 
   try {
-    
     connection = await oracledb.getConnection(dbConfig);
-    
+
     let result = await connection.execute(
-      
       `SELECT OS.OSFP_DT_LAVAGEM_INI, OS.OSFP_DT_LAVAGEM_FIN,
                      OS.ORDEM_SERVICO_FUNI_PINT_ID, OS.FUNC_LAVAGEM_ID  
                        FROM ORDEM_SERVICO_FUNI_PINT OS
-                      WHERE OS.ORDEM_SERVICO_FUNI_PINT_ID = :NR_OS
+                      WHERE OS.ORDEM_SERVICO_FUNI_PINT_ID = :numeroOS
                     `,
-      [NR_OS],
+      [numeroOS],
       { outFormat: oracledb.OUT_FORMAT_OBJECT }
     );
     // }
     let ID_COTACAO = result.rows[0].ORDEM_SERVICO_FUNI_PINT_ID;
-    console.log(ID_COTACAO,"retornou os");
-    
+    console.log(ID_COTACAO,"ID COTACAO SENDO PASSADO");
     if (result.rows[0].OSFP_DT_LAVAGEM_INI !== null) {
       await connection.execute(
         `UPDATE ORDEM_SERVICO_FUNI_PINT OS
-                       SET OS.OSFP_DT_LAVAGEM_FIN = SYSDATE
-                           OS.OS.OSFP_ESTAGIO     = 'POLIMENTO TECNICO'
+                       SET OS.OSFP_DT_LAVAGEM_FIN = SYSDATE,
+                           OS.OSFP_ESTAGIO     = 'POLIMENTO TECNICO'
                            
                      WHERE OS.ORDEM_SERVICO_FUNI_PINT_ID =  :ID_COTACAO     
                       `,
@@ -34,11 +31,12 @@ const ordemServico = async (NR_OS) => {
         [ID_COTACAO],
         { autoCommit: true }
       );
+      
     } else if (result.rows[0].OSFP_DT_LAVAGEM_INI === null) {
       await connection.execute(
         `UPDATE ORDEM_SERVICO_FUNI_PINT OS
-                        SET OS.OSFP_DT_LAVAGEM_INI = SYSDATE
-                            OS.OS.OSFP_ESTAGIO     = 'LAVAGEM'
+                        SET OS.OSFP_DT_LAVAGEM_INI = SYSDATE,
+                            OS.OSFP_ESTAGIO     = 'LAVAGEM'
                             
                       WHERE OS.ORDEM_SERVICO_FUNI_PINT_ID =  :ID_COTACAO     
                        `,
