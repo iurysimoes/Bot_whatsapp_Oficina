@@ -49,8 +49,9 @@ client.on("ready", () => {
   //client.getChats().then(chats => {
   ////iury inicioc
   
-  client.on("message", (message) => {
-    if ((message.body === "Ola") && (reinicioMenu === true)) {
+  client.on("message", message => {
+   
+    if ((message.body === "Ola") /*|| (reinicioMenu === true) && (numeroOS === null)*/) {
       client.sendMessage(
         message.from,
         "Olá sou assistente Virtual\n\n 1-Iniciar Apontamento \n 2-Finalizar Apontamento "
