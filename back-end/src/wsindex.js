@@ -1,4 +1,4 @@
-const { Client, LocalAuth, MessageMedia } = require("whatsapp-web.js");
+const { Client, LocalAuth,Buttons,List, MessageMedia } = require("whatsapp-web.js");
 const fs = require("fs");
 const qrcode = require("qrcode-terminal");
 const oracledb = require("oracledb");
@@ -18,6 +18,7 @@ const stagePreparacao = require("./stages/preparacao");
 const stagePintura = require("./stages/pintura");
 const stageMontagem = require("./stages/montagem");
 const stagePolimentoFinal = require("./stages/polimentoFinal");
+
 
 // Caminho onde os dados da sessão serão armazenados
 const SESSION_FILE_PATH = "./session.json";
@@ -43,7 +44,7 @@ client.on("qr", (qr) => {
   //console.log('QR RECEIVED', qr);
   qrcode.generate(qr, { small: true });
 });
-let reinicioMenu;
+let reinicioMenu = true;
 let menuIniciado;
 let menuEstagio = null;
 let menuEstagioIniciado;
@@ -61,14 +62,19 @@ client.on("ready", () => {
   
   client.on("message", (message) => {
     //client.sendMessage(message.from,FormattedButtonSpec.testebotao);
-    if (
-      message.body ===
-      "Ola" /*|| (reinicioMenu === true) && (numeroOS === null)*/
-    ) {
+    if (( message.body ==="Menu") && (reinicioMenu === true)) {
       client.sendMessage(
         message.from,
-        "Olá sou assistente Virtual\n\n 1-Iniciar Apontamento \n 2-Finalizar Apontamento "
+        "Olá sou assistente Virtual\n\n 1⃣-Iniciar Apontamento \n 2⃣-Finalizar Apontamento "
       );
+     
+        //  console.log(message.body, "mss" );
+        //  let button = new Buttons('Button body',[{body:'bt1'},{body:'bt2'},{body:'bt3'}],'title','footer');
+        // client.sendMessage(message.from, button);
+        //  console.log("auqi")
+        //  console.log(button);
+        
+       
       menuIniciado = true;
     }
 
@@ -100,14 +106,14 @@ client.on("ready", () => {
             client.sendMessage(
               message.from,
               "Deseja efetuar apontamento para qual função? \n" +
-                "1-LAVAGEM\n" +
-                "2-POLIMENTO TECNICO\n" +
-                "3-DESMONTAGEM\n" +
-                "4-LANTERNAGEM\n" +
-                "5-PREPARACAO\n" +
-                "6-PINTURA\n" +
-                "7-MONTAGEM\n" +
-                "8-POLIMENTO FINAL\n"
+                "1⃣-LAVAGEM\n" +
+                "2⃣-POLIMENTO TECNICO\n" +
+                "3⃣-DESMONTAGEM\n" +
+                "4⃣-LANTERNAGEM\n" +
+                "5⃣-PREPARACAO\n" +
+                "6⃣-PINTURA\n" +
+                "7⃣-MONTAGEM\n" +
+                "8⃣-POLIMENTO FINAL\n"
             );
 
             usuarioIniciado = false;
@@ -123,27 +129,35 @@ client.on("ready", () => {
     if (menuEstagioIniciado === true) {
       if (message.body === "1") {
         menuEstagio = "1";
+        menuEstagioIniciado = false;
       }
       if (message.body === "2") {
         menuEstagio = "2";
+        menuEstagioIniciado = false;
       }
       if (message.body === "3") {
         menuEstagio = "3";
+        menuEstagioIniciado = false;
       }
       if (message.body === "4") {
         menuEstagio = "4";
+        menuEstagioIniciado = false;
       }
       if (message.body === "5") {
         menuEstagio = "5";
+        menuEstagioIniciado = false;
       }
       if (message.body === "6") {
         menuEstagio = "6";
+        menuEstagioIniciado = false;
       }
       if (message.body === "7") {
         menuEstagio = "8";
+        menuEstagioIniciado = false;
       }
       if (message.body === "8") {
         menuEstagio = "8";
+        menuEstagioIniciado = false;
       }
     }
     if (menuEstagio !== null) {
@@ -171,6 +185,7 @@ client.on("ready", () => {
               );
               numeroOS = null;
               reinicioMenu = true;
+              passaEstagioOs = null;
             }
           });
         } catch (error) {
@@ -189,6 +204,8 @@ client.on("ready", () => {
               );
               numeroOS = null;
               reinicioMenu = true;
+              passaEstagioOs = null;
+              numeroOsIniciado = false;
             }
           });
         } catch (error) {
@@ -207,6 +224,7 @@ client.on("ready", () => {
               );
               numeroOS = null;
               reinicioMenu = true;
+              passaEstagioOs = null;
             }
           });
         } catch (error) {
@@ -225,6 +243,7 @@ client.on("ready", () => {
               );
               numeroOS = null;
               reinicioMenu = true;
+              passaEstagioOs = null;
             }
           });
         } catch (error) {
@@ -243,6 +262,7 @@ client.on("ready", () => {
               );
               numeroOS = null;
               reinicioMenu = true;
+              passaEstagioOs = null;
             }
           });
         } catch (error) {
@@ -261,6 +281,7 @@ client.on("ready", () => {
               );
               numeroOS = null;
               reinicioMenu = true;
+              passaEstagioOs = null;
             }
           });
         } catch (error) {
@@ -279,6 +300,7 @@ client.on("ready", () => {
               );
               numeroOS = null;
               reinicioMenu = true;
+              passaEstagioOs = null;
             }
           });
         } catch (error) {
@@ -297,6 +319,7 @@ client.on("ready", () => {
               );
               numeroOS = null;
               reinicioMenu = true;
+              passaEstagioOs = null;
             }
           });
         } catch (error) {

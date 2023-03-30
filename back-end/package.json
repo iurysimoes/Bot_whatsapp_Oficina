@@ -6,7 +6,7 @@
         "to": "^0.2.9",
         "update": "^0.7.4",
         "whatsapp-api-js": "^0.8.2",
-        "whatsapp-web.js": "^1.19.4"
+        "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js#fix-buttons-list"
     },
     "devDependencies": {
         "nodemon": "^2.0.21"
